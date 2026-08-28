@@ -60,8 +60,16 @@ sed -i \
 # ---------------------------------------------------------------------------
 # 2. /etc/os-release — this is what fastfetch, neofetch, uname-ish tools,
 #    and most "what OS is this" checks actually read.
+#
+#    NOTE: we deliberately do NOT also hand-write /etc/lsb-release here.
+#    The real `lsb-release` package (pulled in as a dependency during the
+#    mkarchiso package install step) owns that file. Writing it ourselves
+#    first creates an untracked file that pacman then refuses to overwrite
+#    when it tries to install the real package -> "exists in filesystem"
+#    / "failed to commit transaction (conflicting files)" build failure.
 # ---------------------------------------------------------------------------
 echo "==> Writing custom os-release"
+mkdir -p airootfs/etc
 cat > airootfs/etc/os-release << 'EOF'
 NAME="Kane's Arch"
 PRETTY_NAME="Kane's Arch"
@@ -74,15 +82,6 @@ DOCUMENTATION_URL="https://kanes-arch.example/wiki/"
 SUPPORT_URL="https://kanes-arch.example/"
 BUG_REPORT_URL="https://kanes-arch.example/bugs/"
 LOGO=kanesarch-logo
-EOF
-
-# Keep lsb-release in sync so lsb_release -a matches too
-mkdir -p airootfs/etc
-cat > airootfs/etc/lsb-release << 'EOF'
-LSB_VERSION=1.4
-DISTRIB_ID=KanesArch
-DISTRIB_RELEASE=rolling
-DISTRIB_DESCRIPTION="Kane's Arch"
 EOF
 
 # ---------------------------------------------------------------------------
