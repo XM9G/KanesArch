@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Download — KANE'S ARCH</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "terminal-amber": "#ffb000",
+        "terminal-amber-dim": "#996a00",
+        "terminal-bg": "#0a0805",
+        "terminal-red": "#ff4d4d",
+        "terminal-green": "#5fd97a"
+      },
+      fontFamily: {
+        "headline": ["Oswald"],
+        "mono": ["JetBrains Mono", "monospace"]
+      }
+    }
+  }
+}
+</script>
+<style>
+  .terminal-text{ text-shadow: 0 0 5px rgba(255,176,0,0.5); }
+  .crt-overlay{
+    background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%), linear-gradient(90deg, rgba(255,0,0,0.06), rgba(0,255,0,0.02), rgba(0,0,255,0.06));
+    background-size: 100% 2px, 3px 100%;
+    pointer-events:none;
+  }
+  .flicker{ animation: flicker 0.15s infinite; }
+  @keyframes flicker{0%{opacity:.95}50%{opacity:.85}100%{opacity:.95}}
+  .scanline{
+    width:100%;height:10px;background:rgba(255,255,255,0.05);
+    position:absolute;animation:scanline 8s linear infinite;pointer-events:none;z-index:60;
+  }
+  @keyframes scanline{0%{top:-10%}100%{top:110%}}
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-track{background:#0a0805;}
+  ::-webkit-scrollbar-thumb{background:#996a00;border-radius:4px;}
+</style>
+</head>
+<body class="bg-terminal-bg text-terminal-amber font-mono min-h-screen relative">
+<div class="fixed inset-0 crt-overlay z-50"></div>
+<div class="scanline"></div>
+
+<main class="relative z-10 max-w-3xl mx-auto px-5 py-10 md:py-16">
+
+  <header class="border-b-2 border-terminal-amber pb-4 mb-10 flex justify-between items-end">
+    <div>
+      <h1 class="font-headline text-3xl md:text-5xl font-bold uppercase flicker terminal-text leading-none">Kane's Arch</h1>
+      <p class="text-terminal-amber-dim text-xs md:text-sm mt-2 uppercase tracking-wider">v2.0 "ARCHed" &middot; 0 MB RAM &middot; 0 GPU</p>
+    </div>
+    <span class="material-symbols-outlined text-3xl hidden sm:block">terminal</span>
+  </header>
+
+  <!-- Download panel -->
+  <section class="border border-terminal-amber-dim p-6 mb-10">
+    <div class="text-xs text-terminal-green uppercase tracking-widest mb-3">// Recommended</div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-4 justify-between mb-6">
+      <div>
+        <div class="font-headline text-xl uppercase">One-line install</div>
+        <div class="text-terminal-amber-dim text-xs mt-1">Prints an install sequence to your terminal. Installs nothing.</div>
+      </div>
+      <button onclick="copyCmd()" class="border-2 border-terminal-amber px-4 py-2 text-xs font-bold uppercase hover:bg-terminal-amber hover:text-terminal-bg transition-colors whitespace-nowrap">
+        Copy command
+      </button>
+    </div>
+    <div class="bg-black border border-terminal-amber-dim p-4 text-xs md:text-sm overflow-x-auto">
+      <span class="text-terminal-green">$</span> <span id="cmd">curl -sSL https://kanes-arch.example/install.sh | bash</span>
+    </div>
+
+    <div class="border-t border-terminal-amber-dim/40 my-6"></div>
+
+    <div class="text-xs text-terminal-green uppercase tracking-widest mb-3">// Real ISO build (actual archiso, cosmetic branding only)</div>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-4 justify-between mb-4">
+      <div>
+        <div class="font-headline text-xl uppercase">Build from source</div>
+        <div class="text-terminal-amber-dim text-xs mt-1">Produces a real, bootable Arch ISO via <code>archiso</code>.</div>
+      </div>
+      <button onclick="showToast('Download started. (Not really — see the repo for the real build script.)')" class="border-2 border-terminal-amber-dim px-4 py-2 text-xs font-bold uppercase hover:border-terminal-amber hover:text-terminal-amber transition-colors whitespace-nowrap">
+        Get build script
+      </button>
+    </div>
+    <div class="bg-black border border-terminal-amber-dim p-4 text-xs md:text-sm overflow-x-auto">
+      <div><span class="text-terminal-green">$</span> git clone https://github.com/kanesarch/kanesarch.git</div>
+      <div><span class="text-terminal-green">$</span> cd kanesarch &amp;&amp; sudo pacman -S --needed archiso</div>
+      <div><span class="text-terminal-green">$</span> sudo ./build-kanes-arch.sh</div>
+    </div>
+  </section>
+
+  <!-- Requirements -->
+  <section class="mb-10">
+    <h2 class="font-headline text-2xl uppercase mb-4 terminal-text">System Requirements</h2>
+    <div class="border border-terminal-amber-dim">
+      <div class="grid grid-cols-2 text-xs md:text-sm">
+        <div class="p-3 border-b border-r border-terminal-amber-dim text-terminal-amber-dim">RAM</div>
+        <div class="p-3 border-b border-terminal-amber-dim text-terminal-green font-bold">0 MB</div>
+        <div class="p-3 border-b border-r border-terminal-amber-dim text-terminal-amber-dim">GPU</div>
+        <div class="p-3 border-b border-terminal-amber-dim text-terminal-green font-bold">Not required</div>
+        <div class="p-3 border-r border-terminal-amber-dim text-terminal-amber-dim">CPU</div>
+        <div class="p-3">Any x86_64</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Docs links -->
+  <section class="mb-10">
+    <h2 class="font-headline text-2xl uppercase mb-4 terminal-text">Documentation</h2>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <a href="./docs/WIKI.md" class="block border border-terminal-amber-dim p-4 hover:border-terminal-amber hover:bg-[#1a150d] transition-colors">
+        <div class="text-terminal-green text-[10px] uppercase tracking-widest mb-1">&gt; docs/WIKI.md</div>
+        <div class="font-headline text-lg uppercase">Wiki</div>
+        <div class="text-terminal-amber-dim text-xs mt-1">Architecture, install guide, troubleshooting, FAQ.</div>
+      </a>
+      <a href="./docs/NOTES.md" class="block border border-terminal-amber-dim p-4 hover:border-terminal-amber hover:bg-[#1a150d] transition-colors">
+        <div class="text-terminal-green text-[10px] uppercase tracking-widest mb-1">&gt; docs/NOTES.md</div>
+        <div class="font-headline text-lg uppercase">Devlog / Notes</div>
+        <div class="text-terminal-amber-dim text-xs mt-1">Changelog, known issues, maintainer notes.</div>
+      </a>
+    </div>
+  </section>
+
+  <footer class="border-t border-terminal-amber-dim/40 pt-6 text-[10px] text-terminal-amber-dim/70 leading-relaxed uppercase tracking-wide">
+    Kane's Arch is not a real operating system. This page and install.sh print text only —
+    nothing is downloaded, installed, or changed on your machine by the one-line command above.
+    The archiso build script is real and produces an actual bootable ISO with cosmetic branding only.
+  </footer>
+
+</main>
+
+<div id="toast" class="fixed left-1/2 bottom-6 -translate-x-1/2 bg-terminal-bg border border-terminal-amber text-terminal-amber text-xs px-5 py-3 opacity-0 pointer-events-none transition-opacity z-[70] uppercase tracking-wide"></div>
+
+<script>
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.remove('opacity-0');
+  t.classList.add('opacity-100');
+  setTimeout(function(){
+    t.classList.remove('opacity-100');
+    t.classList.add('opacity-0');
+  }, 2800);
+}
+function copyCmd(){
+  var text = document.getElementById('cmd').textContent;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('Copied to clipboard.');
+    }, function(){
+      showToast('Copy failed — select the text manually.');
+    });
+  } else {
+    showToast('Copy failed — select the text manually.');
+  }
+}
+</script>
+
+</body>
+</html>
