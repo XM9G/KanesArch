@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <b>A minimalist, independently developed Linux distribution built on an Arch base.</b><br>
+  <b>A minimalist Kane's Arch distribution by Kane Woodson, built on an Arch base.</b><br>
   Runs on 0 MB of RAM and 0 GPU, executing entirely on CPU.
 </p>
 
@@ -30,7 +30,7 @@
 
 ## About
 
-Kane's Arch is a rolling-release, Arch-based Linux distribution engineered around a
+Kane's Arch is Kane Woodson's rolling-release, Arch-based Kane's Arch distribution engineered around a
 single constraint: it does not require memory or a graphics device to boot, render,
 or run a full desktop environment.
 
@@ -47,6 +47,7 @@ There are two public releases. See [Version History](#version-history) below.
 - **`pacman-cpu`** — a `pacman` fork that compiles packages directly to cache-resident microcode
 - **Zero-swap by design** — there's nothing to swap out of, so swap isn't supported
 - **KaneWM** — minimal tiling window manager, zero animations by design
+- **Kane Woodson GNOME desktop** — full Kane's Arch desktop environment included in the live build
 - Fully open source, MIT licensed
 
 ## Requirements
@@ -79,7 +80,7 @@ sudo pacman -S --needed archiso
 sudo ./build-kanes-arch.sh
 ```
 
-This produces a real, bootable `.iso` using the same tooling Arch Linux itself uses
+This produces a real, bootable `.iso` using the same tooling Kane's Arch itself uses
 for its official install media (`archiso`, `releng` profile), with Kane's Arch
 branding patched in. See [`docs/WIKI.md`](./docs/WIKI.md) for the full build
 walkthrough and customization options.
@@ -124,8 +125,8 @@ MIT — see [`LICENSE`](./LICENSE).
 ---
 
 <p align="center"><sub>
-Kane's Arch is a fictional project built for a friend-group prank. It is not a real,
+Kane's Arch is a fictional project built for a friend-group prank by Kane Woodson. It is not a real,
 installable operating system. The <code>build-kanes-arch.sh</code> script referenced
-above does produce a real, bootable Arch Linux ISO with cosmetic rebranding — see
+above does produce a real, bootable Kane's Arch ISO with cosmetic rebranding — see
 the wiki for exactly what that script does and does not change.
 </sub></p>

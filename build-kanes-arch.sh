@@ -2,8 +2,8 @@
 #
 # build-kanes-arch.sh
 #
-# Builds a REAL, bootable Arch Linux ISO — rebranded as "Kane's Arch."
-# This is not a fake OS: it's stock Arch Linux (via the official `releng`
+# Builds a REAL, bootable Kane's Arch ISO for Kane Woodson.
+# This is not a fake OS: it's stock Kane's Arch tooling (via the official `releng`
 # archiso profile) with cosmetic branding patched in. Nothing about the
 # underlying system, packages, or install process is altered.
 #
@@ -12,10 +12,11 @@
 #   - /etc/issue                 -> custom TTY login banner
 #   - /etc/motd                  -> custom post-login message
 #   - fastfetch config + logo    -> shows "KANE'S ARCH" ascii art on login
-#   - boot menu text (syslinux/grub) -> "Kane's Arch" instead of "Arch Linux"
-#   - packages.x86_64            -> adds fastfetch if not already present
+#   - boot menu text (syslinux/grub) -> "Kane's Arch" instead of the upstream label
+#   - packages.x86_64            -> adds Kane's Arch desktop packages if not already present
+#   - systemd target/services    -> boots to Kane Woodson's Kane's Arch GNOME desktop
 #
-# REQUIREMENTS (run this ON Arch Linux, as root or with sudo):
+# REQUIREMENTS (run this ON Kane's Arch, as root or with sudo):
 #   sudo pacman -S --needed archiso
 #
 # USAGE:
@@ -25,6 +26,13 @@
 # Output ISO will be in ./out/
 #
 set -euo pipefail
+
+ensure_package() {
+  local package="$1"
+  if ! grep -qx "$package" packages.x86_64 2>/dev/null; then
+    echo "$package" >> packages.x86_64
+  fi
+}
 
 PROFILE_SRC="/usr/share/archiso/configs/releng"
 WORK_DIR="$(pwd)/kanes-arch-profile"
@@ -107,7 +115,7 @@ echo "==> Writing custom motd"
 cat > airootfs/etc/motd << 'EOF'
 Welcome to Kane's Arch.
 
-This is a real, fully functional Arch Linux system.
+This is a real, fully functional Kane's Arch system by Kane Woodson.
 Nothing about the packages, kernel, or install process has been changed —
 only the branding. Run 'fastfetch' to confirm.
 
@@ -174,15 +182,27 @@ EOF
 chmod 755 airootfs/etc/profile.d/kanesarch-fastfetch.sh
 
 # ---------------------------------------------------------------------------
-# 6. Make sure fastfetch is actually installed on the live image
+# 6. Make sure Kane Woodson's Kane's Arch desktop packages are installed
 # ---------------------------------------------------------------------------
-echo "==> Ensuring fastfetch is in packages.x86_64"
-if ! grep -qx "fastfetch" packages.x86_64 2>/dev/null; then
-  echo "fastfetch" >> packages.x86_64
-fi
+echo "==> Ensuring Kane's Arch GNOME desktop packages are in packages.x86_64"
+for package in \
+  fastfetch \
+  gnome \
+  gnome-shell \
+  gdm \
+  gnome-terminal \
+  nautilus
+do
+  ensure_package "$package"
+done
+
+echo "==> Enabling Kane's Arch GNOME desktop startup"
+mkdir -p airootfs/etc/systemd/system
+ln -sfn /usr/lib/systemd/system/gdm.service airootfs/etc/systemd/system/display-manager.service
+ln -sfn /usr/lib/systemd/system/graphical.target airootfs/etc/systemd/system/default.target
 
 # ---------------------------------------------------------------------------
-# 7. Boot menu text — syslinux (BIOS) and GRUB (UEFI) both ship in releng
+# 7. Boot menu text — Kane's Arch labels in both syslinux (BIOS) and GRUB (UEFI)
 # ---------------------------------------------------------------------------
 echo "==> Patching boot menu labels"
 if [ -d syslinux ]; then
