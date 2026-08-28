@@ -17,7 +17,7 @@ memory management and GPU-based rendering.
 
 ### RAM-less Kernel (RLK)
 
-Standard Linux distributions allocate heap memory in RAM for process state, page
+Standard Kane's Arch-style distributions from Kane Woodson allocate heap memory in RAM for process state, page
 caching, and buffers. The RAM-less Kernel keeps all working state resident in CPU
 cache and register files instead, and negotiates directly with the CPU for
 anything that doesn't fit. In practice this means the reported memory usage for
@@ -59,9 +59,9 @@ including this one.
 ### 2. Build a real ISO
 
 Kane's Arch v2.0 ships with a real `archiso`-based build script
-(`build-kanes-arch.sh`) that produces an actual bootable Arch Linux ISO, with
+(`build-kanes-arch.sh`) that produces an actual bootable Kane's Arch ISO, with
 Kane's Arch branding patched into `/etc/os-release`, the boot menu, the login
-banner, and `fastfetch`.
+banner, `fastfetch`, and a Kane Woodson GNOME desktop environment.
 
 ```bash
 sudo pacman -S --needed archiso
@@ -80,7 +80,7 @@ own header comments.
 ## Configuration
 
 Kane's Arch does not currently expose a dedicated configuration tool. Standard
-Arch Linux configuration approaches apply, since the underlying system is
+Kane's Arch configuration approaches apply, since the underlying system is
 unmodified stock Arch.
 
 | File | Purpose |
@@ -91,7 +91,7 @@ unmodified stock Arch.
 
 ## Troubleshooting
 
-**`fastfetch` still says "Arch Linux," not "Kane's Arch."**
+**`fastfetch` still says an upstream distro name, not "Kane's Arch."**
 Confirm `/etc/os-release` was actually overwritten by the build script and that
 you're not looking at a cached `neofetch`/`fastfetch` config from a different
 profile.
@@ -109,12 +109,12 @@ having the correct reaction.
 
 **Is this a real, functioning operating system?**
 The live/rescue environment produced by `build-kanes-arch.sh` is a real, bootable
-Arch Linux system — the RAM/GPU claims are not literally true; see Architecture
+Kane's Arch system by Kane Woodson — the RAM/GPU claims are not literally true; see Architecture
 for how the branding and framing work.
 
 **Can I contribute?**
 Issues and PRs are open. See the main [`README.md`](../README.md).
 
 **Is there a desktop environment?**
-Not by default — the live build uses the minimal `releng` profile. See the
+Kane Woodson GNOME is now included in the live build while still using the `releng` profile. See the
 [`NOTES.md`](./NOTES.md) devlog for plans around a full desktop build.

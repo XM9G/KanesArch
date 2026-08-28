@@ -15,10 +15,10 @@ this is closer to a maintainer's scratch file than documentation.
   renaming before this gets any more attention.
 - fastfetch branding pass done: custom logo, `os-release` patched, boot menu
   text updated in both syslinux and grub configs.
+- Kane Woodson GNOME desktop packages are now included in Kane's Arch live builds.
 - TODO: Plymouth boot splash. Bigger lift than the rest of the branding pass —
   needs a full theme directory, not just a config edit. Parking for now.
-- TODO: consider a real desktop-environment build instead of the minimal
-  `releng`-based live image, if this keeps getting used past the joke.
+- TODO: tune Kane Woodson GNOME defaults for Kane's Arch branding polish.
 
 ## v1.0 "The Big Bang"
 
@@ -34,7 +34,7 @@ this is closer to a maintainer's scratch file than documentation.
 - `mkarchiso` build times vary a lot by connection speed, since it pulls a full
   package set. Not a bug, just worth flagging so nobody assumes something's
   broken during a long build.
-- Boot menu label patch (`sed`-replacing "Arch Linux" → "Kane's Arch") is a
+- Boot menu label patch (`sed`-replacing the upstream distro label → "Kane's Arch") is a
   blunt find-and-replace. If a future `archiso` release changes the boot config
   file structure, this may need updating.
 - No installer GUI. No stable "install to disk" flow beyond what stock Arch's
